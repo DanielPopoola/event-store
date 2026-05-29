@@ -32,6 +32,7 @@ A write works by going to the end of the file using `Seek`, since it's an append
 then forcefully saved to disk with `e.file.Sync`. The write uses a mutex lock to serialize writes to prevent race conditions 
 
 ### How a read works
+
 A read works by first checking the index to see if the event exists, then goes on to read the exact bytes for that particular index that exists since we store both offset and legnth of content in bytes.
 ---
 
@@ -41,7 +42,8 @@ A read works by first checking the index to see if the event exists, then goes o
 This is is favourble to hardware architecture i.e HDDs and SSDs, it's simply adding to the end of a file and it's a very fast operation. Overwriting on the other hand requires you to look up the position of the index first then update that place on disk, which is quite expensive.
 
 ### Why an index makes reads fast
-Indexes make read fast because they provide like a shortcut to locating content. Although they come at a tradeoff: every index can improve reads but slow down writes.
+Indexes make read fast because they provide a means to skip full scans and jump straight to the requested data.
+Although they come at a tradeoff: every index can improve reads but slow down writes.
 
 ---
 
