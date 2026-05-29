@@ -39,7 +39,7 @@ A read works by first checking the index to see if the event exists, then goes o
 ## Core Concepts
 
 ### Why append-only is safer than overwriting
-This is is favourble to hardware architecture i.e HDDs and SSDs, it's simply adding to the end of a file and it's a very fast operation. Overwriting on the other hand requires you to look up the position of the index first then update that place on disk, which is quite expensive.
+Append-only is safer compared to overwriting because if the process crashes while overwriting the data is now corrupted, whereas in append-only a crash mid-write only leads to an incomplete entry.
 
 ### Why an index makes reads fast
 Indexes make read fast because they provide a means to skip full scans and jump straight to the requested data.
@@ -53,20 +53,21 @@ Although they come at a tradeoff: every index can improve reads but slow down wr
 ---
 
 ## What I Struggled With
-Just the indexing choice, using offset and length.
+Verifying that unicode byte counting was correct.
+Understanding why I needed both offset and length
 
 ---
 
 ## What I Learned
-This architecture known as the Write-Ahead Log (WAL) powers every database architecture.
-This thinking also translates to distributed systems where crashes can happen, one key to recovery is to record the intent to do sth before doing it. That's the idea behind the WAL, outbox pattern and so on.
+This is the simplest version of a storage engine: an append-only log with hash index. It has some problems which are then addressed by advanced storage engines like LSM and B-Trees. But they all have something this in common as a crash recovery strategy.
+This thinking also translates to distributed systems where crashes can happen, one key to recovery is to record the intent to do something before doing it. That's the idea behind the WAL, outbox pattern and so on.
 
 ---
 
 ## Resources
-Designing Data-Intensive Applications - Martink Kleppman; Chapter 3 - Database Stroage Engines
+Designing Data-Intensive Applications - Martin Kleppmann; Chapter 3 - Database Storage Engines
 
 ---
 
 ## Why This Made Me a Better Backend Developer
-Shows that understanding how things work underneath have various applications as the thinking can be applied in various ways.
+This has made me develop a strategy for crash recovery and I've also seen how understanding how low-level concepts can have various use cases when applied to different context.
