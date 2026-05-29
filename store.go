@@ -111,12 +111,8 @@ func (e *FileEngine) Get(id string) (string, error) {
 		return "", fmt.Errorf("No event found")
 	}
 
-	if _, err := e.file.Seek(entry.offset, 0); err != nil {
-		return "", err
-	}
-
 	buf := make([]byte, entry.length)
-	if _, err := io.ReadFull(e.file, buf); err != nil {
+	if _, err := e.file.ReadAt(buf, entry.offset); err != nil {
 		return "", err
 	}
 
