@@ -1,5 +1,7 @@
 # Event Store
 
+A small HTTP service that stores events in an append-only log and reads them back by ID, even after a restart.
+
 ## Setup
 
 ### Install & Start
