@@ -32,8 +32,8 @@ A write works by going to the end of the file using `Seek`, since it's an append
 then forcefully saved to disk with `e.file.Sync`. The write uses a mutex lock to serialize writes to prevent race conditions 
 
 ### How a read works
-
 A read works by first checking the index to see if the event exists, then goes on to read the exact bytes for that particular index that exists since we store both offset and legnth of content in bytes.
+
 ---
 
 ## Core Concepts
